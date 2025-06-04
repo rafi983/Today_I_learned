@@ -8,8 +8,8 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background-color: #292524;
-    color: #fafaf9;
+    background-color: ${({ theme }) => theme.background};
+    color: ${({ theme }) => theme.text};
     font-family: "Sono", sans-serif;
     padding: 48px 64px;
   }

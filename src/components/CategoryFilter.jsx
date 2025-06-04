@@ -16,22 +16,45 @@ const CategoryButton = styled.button`
   border-radius: 100px;
   color: inherit;
   background-color: ${({ color }) => color || "#44403c"};
+  transition: 0.3s;
+
+  ${({ isActive }) =>
+    isActive &&
+    `
+    box-shadow: 0 0 0 3px white;
+    transform: scale(1.05);
+  `}
 
   &:hover {
     transform: scale(1.1) rotate(-2deg);
   }
 `;
 
-function CategoryFilter() {
+const AllButton = styled(CategoryButton)`
+  background-image: linear-gradient(135deg, #3b82f6, #ef4444, #16a34a, #eab308);
+`;
+
+function CategoryFilter({ selectedCategory, setSelectedCategory }) {
   return (
     <Aside>
       <List>
         <li>
-          <CategoryButton>All</CategoryButton>
+          <AllButton
+            isActive={selectedCategory === "all"}
+            onClick={() => setSelectedCategory("all")}
+          >
+            All
+          </AllButton>
         </li>
         {CATEGORIES.map((cat) => (
           <li key={cat.name}>
-            <CategoryButton color={cat.color}>{cat.name}</CategoryButton>
+            <CategoryButton
+              isActive={selectedCategory === cat.name}
+              color={cat.color}
+              onClick={() => setSelectedCategory(cat.name)}
+            >
+              {cat.name}
+            </CategoryButton>
           </li>
         ))}
       </List>

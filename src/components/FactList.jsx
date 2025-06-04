@@ -1,13 +1,36 @@
 import styled from "styled-components";
-import { initialFacts, CATEGORIES } from "../data/sampleData";
+import { CATEGORIES } from "../data/sampleData";
 
-const List = styled.ul``;
+const Wrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+`;
+
+const SearchInput = styled.input`
+  width: 100%;
+  padding: 14px 20px;
+  font-size: 18px;
+  border-radius: 100px;
+  border: none;
+  background-color: ${({ theme }) => theme.card};
+  color: ${({ theme }) => theme.text};
+
+  &::placeholder {
+    color: #a1a1aa;
+  }
+`;
+
+const List = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
 
 const Fact = styled.li`
   font-size: 20px;
   line-height: 1.4;
-  background-color: #44403c;
-  margin-bottom: 16px;
+  background-color: ${({ theme }) => theme.card};
   padding: 16px 24px;
   border-radius: 16px;
   display: flex;
@@ -16,7 +39,7 @@ const Fact = styled.li`
 
   @media (max-width: 1200px) {
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: 12px;
   }
 `;
@@ -41,13 +64,12 @@ const Source = styled.a`
 
 const Votes = styled.div`
   margin-left: auto;
-  flex-shrink: 0;
   display: flex;
   gap: 8px;
 
   button {
     border: none;
-    background-color: #78716c;
+    background-color: ${({ theme }) => theme.vote};
     font-size: 18px;
     padding: 6px 12px;
     border-radius: 100px;
@@ -56,34 +78,56 @@ const Votes = styled.div`
     font-weight: 600;
 
     &:hover {
-      background-color: #292524;
+      background-color: ${({ theme }) => theme.background};
     }
   }
 `;
 
-function FactList() {
+function FactList({ facts, selectedCategory, onVote, searchText, setSearchText }) {
+  const filteredFacts = facts
+    .filter((fact) =>
+      selectedCategory === "all" ? true : fact.category === selectedCategory
+    )
+    .filter((fact) =>
+      fact.text.toLowerCase().includes(searchText.toLowerCase())
+    );
+
   return (
-    <List>
-      {initialFacts.map((fact) => {
-        const category = CATEGORIES.find((c) => c.name === fact.category);
-        return (
-          <Fact key={fact.id}>
-            <p>
-              {fact.text}
-              <Source href={fact.source} target="_blank">
-                (Source)
-              </Source>
-            </p>
-            <Tag color={category?.color}>{fact.category}</Tag>
-            <Votes>
-              <button>👍 {fact.votesInteresting}</button>
-              <button>🤯 {fact.votesMindblowing}</button>
-              <button>⛔ {fact.votesFalse}</button>
-            </Votes>
-          </Fact>
-        );
-      })}
-    </List>
+    <Wrapper>
+      <SearchInput
+        type="text"
+        placeholder="Search facts..."
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+      />
+      <List>
+        {filteredFacts.map((fact) => {
+          const category = CATEGORIES.find((c) => c.name === fact.category);
+          return (
+            <Fact key={fact.id}>
+              <p>
+                {fact.text}
+                <Source href={fact.source} target="_blank" rel="noopener noreferrer">
+                  (Source)
+                </Source>
+              </p>
+              <Tag color={category?.color}>{fact.category}</Tag>
+              <Votes>
+                <button onClick={() => onVote(fact.id, "votesInteresting")}>
+                  👍 {fact.votesInteresting}
+                </button>
+                <button onClick={() => onVote(fact.id, "votesMindblowing")}>
+                  🤯 {fact.votesMindblowing}
+                </button>
+                <button onClick={() => onVote(fact.id, "votesFalse")}>
+                  ⛔ {fact.votesFalse}
+                </button>
+              </Votes>
+            </Fact>
+          );
+        })}
+      </List>
+    </Wrapper>
   );
 }
 

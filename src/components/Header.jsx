@@ -27,11 +27,16 @@ const Logo = styled.div`
   }
 `;
 
-const ShareButton = styled.button`
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+
+const ActionButton = styled.button`
   border: none;
   font-family: "Coiny", sans-serif;
-  font-size: 20px;
-  padding: 20px 32px 17px;
+  font-size: 17px;
+  padding: 14px 24px 12px;
   background-image: linear-gradient(135deg, #3b82f6, #ef4444, #16a34a, #eab308);
   color: inherit;
   border-radius: 100px;
@@ -43,14 +48,17 @@ const ShareButton = styled.button`
   }
 `;
 
-function Header() {
+function Header({ onToggleForm, onToggleTheme }) {
   return (
     <HeaderWrapper>
       <Logo>
         <img src={logo} alt="Today I Learned Logo" />
         <h1>Today I Learned</h1>
       </Logo>
-      <ShareButton>Share a fact</ShareButton>
+      <ButtonGroup>
+        <ActionButton onClick={onToggleForm}>Share a fact</ActionButton>
+        <ActionButton onClick={onToggleTheme}>Toggle Theme</ActionButton>
+      </ButtonGroup>
     </HeaderWrapper>
   );
 }

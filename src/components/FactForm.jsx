@@ -1,8 +1,13 @@
+import { useState } from "react";
 import styled from "styled-components";
+import { CATEGORIES } from "../data/sampleData";
+
+const FormWrapper = styled.div`
+  margin-bottom: 40px;
+`;
 
 const Form = styled.form`
   background-color: #44403c;
-  margin-bottom: 40px;
   padding: 16px 32px;
   display: flex;
   align-items: center;
@@ -32,6 +37,7 @@ const Form = styled.form`
     font-weight: 600;
     font-size: 18px;
     margin-right: 18px;
+    color: ${({ limitExceeded }) => (limitExceeded ? "#ef4444" : "inherit")};
   }
 
   button {
@@ -60,20 +66,90 @@ const Form = styled.form`
   }
 `;
 
-function FactForm() {
+const ErrorMessage = styled.p`
+  color: #ef4444;
+  font-weight: 600;
+  font-size: 16px;
+  margin-top: 12px;
+  padding: 0 24px;
+`;
+
+function FactForm({ onAddFact }) {
+  const [text, setText] = useState("");
+  const [source, setSource] = useState("");
+  const [category, setCategory] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const maxLength = 200;
+  const charsLeft = maxLength - text.length;
+
+  function isValidHttpUrl(string) {
+    return string.startsWith("http://") || string.startsWith("https://");
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!text || !source || !category) {
+      setErrorMessage("All fields are required.");
+      return;
+    }
+
+    if (text.length > maxLength) {
+      setErrorMessage(`Fact must be under ${maxLength} characters.`);
+      return;
+    }
+
+    if (!isValidHttpUrl(source)) {
+      setErrorMessage("Source must be a valid URL starting with http:// or https://");
+      return;
+    }
+
+    const newFact = {
+      id: Date.now(),
+      text,
+      source,
+      category,
+      votesInteresting: 0,
+      votesMindblowing: 0,
+      votesFalse: 0,
+      createdIn: new Date().getFullYear(),
+    };
+
+    onAddFact(newFact);
+
+    // Reset form
+    setText("");
+    setSource("");
+    setCategory("");
+    setErrorMessage("");
+  }
+
   return (
-    <Form>
-      <input placeholder="Share a fact with the world..." />
-      <span>200</span>
-      <input placeholder="Trustworthy source..." />
-      <select>
-        <option value="">Choose category:</option>
-        <option value="technology">Technology</option>
-        <option value="science">Science</option>
-        <option value="finance">Finance</option>
-      </select>
-      <button>Post</button>
-    </Form>
+    <FormWrapper>
+      <Form onSubmit={handleSubmit} limitExceeded={text.length > maxLength}>
+        <input
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Share a fact with the world..."
+        />
+        <span>{charsLeft}</span>
+        <input
+          value={source}
+          onChange={(e) => setSource(e.target.value)}
+          placeholder="Trustworthy source..."
+        />
+        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="">Choose category:</option>
+          {CATEGORIES.map((cat) => (
+            <option key={cat.name} value={cat.name}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
+        <button type="submit">Post</button>
+      </Form>
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+    </FormWrapper>
   );
 }
 
