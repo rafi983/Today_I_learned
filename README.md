@@ -1,12 +1,69 @@
-# React + Vite
+# 🧠 Today I Learned — React App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive, modern web app where users can share, vote, and explore fun facts across categories like tech, science, society, and more.
 
-Currently, two official plugins are available:
+Built using **React**, **Styled Components**, and **localStorage**. Inspired by community-driven facts platforms like Reddit’s TIL.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Preview](./public/preview.png)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Features
+
+- ✅ Share a fact with a source and category
+- 👍 Vote: Interesting, Mind-blowing, or False
+- 🏷 Filter facts by category
+- 🔍 Search facts by keyword
+- 📅 Sort by newest/oldest or vote types
+- 🌟 Highlight top-voted fact
+- 🌓 Light & dark mode toggle
+- 💬 Share facts directly on Twitter/X
+- 💾 Data persisted in `localStorage`
+- ✅ Fully responsive across mobile, tablet, desktop
+
+---
+
+## 🛠 Tech Stack
+
+- **React** (Vite)
+- **Styled Components**
+- **JavaScript (ES6+)**
+- **LocalStorage** for persistence
+- **Responsive Design** with media queries
+
+---
+
+## 📂 Project Structure
+
+```text
+src/
+├── components/ // All UI components (Header, Form, List, etc.)
+├── data/ // Sample data and category color map
+├── styles/ // Theme definitions
+├── App.jsx // Root component
+└── main.jsx // Entry point
+
+```
+
+
+---
+
+## 📦 Getting Started
+
+1.  **Clone the repository:**
+    ```sh
+    git clone https://github.com/rafi983/Today_I_learned
+    ```
+2.  **Navigate to the project directory:**
+    ```sh
+    cd Today_I_learned 
+    ```
+3.  **Install NPM packages:**
+    ```sh
+    npm install
+    ```
+4.  **Run the development server:**
+    ```sh
+    npm run dev
+    ```
+    The application will be available at `http://localhost:5173`.
