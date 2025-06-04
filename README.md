@@ -4,7 +4,6 @@ A responsive, modern web app where users can share, vote, and explore fun facts 
 
 Built using **React**, **Styled Components**, and **localStorage**. Inspired by community-driven facts platforms like Reddit’s TIL.
 
-![Preview](./public/preview.png)
 
 ---
 
